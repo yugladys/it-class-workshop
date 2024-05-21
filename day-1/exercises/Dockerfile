@@ -4,7 +4,7 @@ FROM python:3.11-slim-bullseye
 # -- Exercise: create non-root group and non-root user
 # -- create a system group names "user" with -r flag
 RUN groupadd -r user
-# -- reate user and add it to the group
+# -- create user and add it to the group
 RUN useradd -r -g user user
 
 # set working directory in the container 

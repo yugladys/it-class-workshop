@@ -23,17 +23,25 @@ spec:
         
       containers:
       - image: my-api:v1
+        env:
+        - name: APP_PORT
+          value: "8080"
+        - name: PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: my-api-conf
+              key: KEY_VARIABLE
         name: my-api
         livenessProbe:
           httpGet:
             path: /healthz
-            port: http
+            port: 8080
           initialDelaySeconds: 10
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /healthz
-            port: http
+            port: 8080
           initialDelaySeconds: 10
           periodSeconds: 10
           failureThreshold: 5
