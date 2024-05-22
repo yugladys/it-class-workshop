@@ -17,8 +17,8 @@ spec:
         app: exercise
     spec:
       containers:
-      - image: test:v1
-        name: test
+      - image: my-api:v1
+        name: my-api
         env:
         - name: APP_PORT
           value: "8080"
