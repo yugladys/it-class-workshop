@@ -14,8 +14,9 @@ RUN apt-get update && \
     apt-get update && \
     ACCEPT_EULA=Y apt-get install msodbcsql18 unixodbc-dev -y
 
-RUN ACCEPT_EULA=Y apt-get install -y mssql-tools18 && \
-    echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
+# optional for sqlcmd
+# RUN ACCEPT_EULA=Y apt-get install -y mssql-tools18 && \
+#     export PATH="$PATH:/opt/mssql-tools18/bin"'
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
