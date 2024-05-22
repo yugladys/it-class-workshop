@@ -72,7 +72,7 @@ async def update_curr_user(request: Request, payload: dict = Body(...)):
    return {"Status": "New Current User Set"}
 
 if __name__ == "__main__":
-   host = os.getenv("APP_HOST")
-   port = os.getenv("APP_PORT")
+   host = os.getenv("APP_HOST", "0.0.0.0")
+   port = os.getenv("APP_PORT", "80")
 
    uvicorn.run(app, host=host, port=int(port))
