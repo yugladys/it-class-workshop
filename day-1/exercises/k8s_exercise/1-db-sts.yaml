@@ -7,12 +7,10 @@ spec:
  selector:
   matchLabels:
    app: mssql
-  #  used_for: workshop 
  template:
   metadata:
    labels:
     app: mssql 
-    # used_for: workshop 
   spec:
    securityContext:
      fsGroup: 10001
