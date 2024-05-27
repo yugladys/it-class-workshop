@@ -1,1 +1,5 @@
+apache-airflow==2.8.3
+apache-airflow-providers-amazon
+apache-airflow-providers-microsoft-mssql
 boto3
+pandas
