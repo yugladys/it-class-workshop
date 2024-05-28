@@ -1,6 +1,25 @@
 # Airflow Exercises
 
-## Pre-requisites
+## *PRE-REQUISITES*
+
+### Install Python Packages
+
+```sh
+brew install unixodbc
+brew install awscli
+```
+
+```py
+pip -r requirements.txt
+```
+
+If you encounter `fatal error: 'sqlfront.h' file not found` during installation of `apache-airflow-providers-microsoft-mssql`, run the following commands:
+
+```sh
+brew uninstall --force freetds
+brew install freetds
+brew link --force freetds
+```
 
 ### Download Docker Images
 
@@ -10,47 +29,37 @@ docker pull mcr.microsoft.com/azure-sql-edge:latest
 docker pull apache/airflow:2.8.3-python3.10
 ```
 
-### Install Minikube
+### Install Airflow on Minikube
 
 We will use minikube for our exercises since it can pull images from local without loading it in the cluster, and has `host.minikube.internal` DNS which we need to access running Docker containers.
 
 ```sh
 brew install minikube
+brew install helm
 ```
 
-#### Starting Minikube
+Starting Minikube:
 
 ```sh
 minikube start
 eval $(minikube docker-env)
 ```
 
-### Install Helm & Airflow
-
-```sh
-brew install helm
-```
-
 ### Install Airflow
 
-Build our airflow image:
+Build airflow image:
 
 ```docker
 docker build -t mydags:v1 -f airflow.Dockerfile .
 ```
 
-Create new namespace and set context:
+Create your own namespace and set the proper context using kubectl config. 
+*(You can go back to Day 1 slides on how to do this)*
 
-```sh
-kubectl create ns workshop
-kubectl config set-context --namespace=workshop --cluster=minikube --user=minikube workshop
-kubectl config use-context workshop
-```
-
-Deploy airflow release:
+Deploy airflow release using helm:
 
 ```helm
-export NAMESPACE=workshop
+export NAMESPACE=<your namespace>
 export RELEASE_NAME=workshop-release
 helm upgrade $RELEASE_NAME apache-airflow/airflow --namespace $NAMESPACE \
     --set images.airflow.repository=mydags \
@@ -70,28 +79,13 @@ ONLY if you are installing this days before the workshop, stop running cluster a
 minikube stop
 ```
 
-### Install Python Packages
+## *END OF PRE-REQUISITES*
 
-Includes pre-requisites to for testing s3, airflow and providers.
-
-```sh
-brew install unixodbc
-brew install awscli
-```
-
-```py
-pip -r requirements.txt
-```
-
-If you encounter `fatal error: 'sqlfront.h' file not found` during installation of `apache-airflow-providers-microsoft-mssql`, run the following commands:
-
-```sh
-brew uninstall --force freetds
-brew install freetds
-brew link --force freetds
-```
+===================================================================================
 
 ## Run S3 & SQL Server
+
+Docker compose file will be created as an exercise.
 
 ```docker
 docker compose up
