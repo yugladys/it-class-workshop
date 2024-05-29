@@ -79,7 +79,7 @@ ONLY if you are installing this days before the workshop, stop running cluster a
 minikube stop
 ```
 
-## *END OF PRE-REQUISITES*
+## *END OF PRE-REQUISITES. SEE YOU AT THE WORKSHOP!! :)*
 
 ===================================================================================
 
