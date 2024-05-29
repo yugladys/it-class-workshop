@@ -26,7 +26,7 @@ BUCKET_NAME = os.environ.get("BUCKET_NAME", "workshop-output")
 CONN_ID = "workshop_s3"
 
 with DAG(
-    dag_id="etl-exercise-1-dag",
+    dag_id="etl-exercise-s3-dag",
     schedule_interval=None,
     start_date=days_ago(2),
     max_active_runs=1,

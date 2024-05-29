@@ -27,7 +27,7 @@ from datetime import datetime
 from airflow import DAG
 from airflow.providers.microsoft.mssql.operators.mssql import MsSqlOperator
 
-DAG_ID = "etl-exercise-2-dag"
+DAG_ID = "etl-exercise-sql-dag"
 
 with DAG(
     DAG_ID,
