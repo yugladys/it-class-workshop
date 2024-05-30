@@ -9,8 +9,12 @@ brew install unixodbc
 brew install awscli
 ```
 
+```sh
+cd day-2
+```
+
 ```py
-pip -r requirements.txt
+pip install -r requirements.txt
 ```
 
 If you encounter `fatal error: 'sqlfront.h' file not found` during installation of `apache-airflow-providers-microsoft-mssql`, run the following commands:
@@ -42,32 +46,36 @@ Starting Minikube:
 
 ```sh
 minikube start
-eval $(minikube docker-env)
 ```
 
 ### Install Airflow
 
-Build airflow image:
+Build airflow image (make sure to run minikube eval in the same terminal as docker build):
 
 ```docker
+eval $(minikube docker-env)
 docker build -t mydags:v1 -f airflow.Dockerfile .
 ```
 
 Create your own namespace and set the proper context using kubectl config. 
 *(You can go back to Day 1 slides on how to do this)*
 
-Deploy airflow release using helm:
+Install the helm chart for apache airflow:
+```helm
+helm repo add apache-airflow https://airflow.apache.org
+```
 
+Deploy airflow release using helm:
 ```helm
 export NAMESPACE=<your namespace>
 export RELEASE_NAME=workshop-release
-helm upgrade $RELEASE_NAME apache-airflow/airflow --namespace $NAMESPACE \
+helm install $RELEASE_NAME apache-airflow/airflow --namespace $NAMESPACE \
     --set images.airflow.repository=mydags \
     --set images.airflow.tag=v1 \
     --set images.airflow.pullPolicy=Never
 ```
 
-Check if airflow pods are running (make sure `READY` column has n/n containers running):
+Check if airflow pods are running (make sure `READY` column has n/n containers running)*:
 
 ```sh
 kubectl get po
@@ -77,6 +85,16 @@ ONLY if you are installing this days before the workshop, stop running cluster a
 
 ```sh
 minikube stop
+```
+
+* *If you encounter the Init:ErrImageNeverPull for the airflow pods please run the following:*
+
+```helm
+minikube image load mydags:v1
+helm install $RELEASE_NAME apache-airflow/airflow --namespace $NAMESPACE \
+    --set images.airflow.repository=mydags \
+    --set images.airflow.tag=v1 \
+    --set images.airflow.pullPolicy=Never
 ```
 
 ## *END OF PRE-REQUISITES. SEE YOU AT THE WORKSHOP!! :)*
