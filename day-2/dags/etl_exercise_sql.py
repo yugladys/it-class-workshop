@@ -58,8 +58,9 @@ with DAG(
 
     # Write an ETL pipeline that does the following:
     # 1. Creates a new table `<your name>_ACCOUNT_TOTALS` but using a `create_table.sql` file
-    # 2. Insert data points from `results/exercise-1.parquet` in `workshop-output` bucket
-    # 3. Get all data from `<your name>_ACCOUNT_TOTALS` 
+    # 2. Downloads file `input.csv` from `workshop` bucket to local directory
+    # 3. Insert rows from `input.csv` file
+    # 4. Get all data from `<your name>_ACCOUNT_TOTALS` 
 
     # Make the create table step rerunnable 
 
