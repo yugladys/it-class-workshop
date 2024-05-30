@@ -33,14 +33,16 @@ Sample Post Request:
 curl -X POST http://localhost:8080/current-user -d '{"username":"workshop_user"}' -H "Content-Type: application/json"
 ```
 
-## Running the API
+## Running the API Locally
+
+Install requirments:
 
 ```sh
-uvicorn main:app
+pip install -r requirements.txt
 ```
 
 ```sh
-uvicorn main:app --host ${APP_HOST} --port ${APP_PORT}
+python main.py
 ```
 
 ### Building the Image

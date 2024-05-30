@@ -1,0 +1,21 @@
+# Docker Compose Exercise
+
+# 1. Create a docker compose file (`compose.yaml`) which runs these 2 containers
+
+# Base it on the following docker run commands
+
+# ```
+# docker run -v $(PWD)/s3_data:/data --env-file s3.env --name s3 andrewgaul/s3proxy
+# ```
+
+# ```
+# docker run --env-file sql.env --name sql mcr.microsoft.com/azure-sql-edge:latest
+# ```
+
+# Reference: https://docs.docker.com/compose/compose-application-model/#illustrative-example
+
+# 2. Also expose the ports for `s3` in 8083, mssql in `1433`
+
+# 3. Run `docker compose up` and then run `docker ps` to check if both containers are up
+
+# You should get the same output as the `docker-compose.png`
