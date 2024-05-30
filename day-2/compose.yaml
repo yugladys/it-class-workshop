@@ -19,3 +19,25 @@
 # 3. Run `docker compose up` and then run `docker ps` to check if both containers are up
 
 # You should get the same output as the `docker-compose.png`
+
+services:
+  # MS SQL Server
+  mssql:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    container_name: mssql
+    ports:
+      - 1433:1433
+    env_file:
+    - path: sql.env
+      required: true
+  # S3
+  s3:
+    image: andrewgaul/s3proxy
+    container_name: s3
+    env_file:
+    - path: s3.env
+      required: true
+    volumes:
+      - ./s3_data:/data
+    ports:
+      - 8083:8083
