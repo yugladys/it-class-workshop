@@ -29,9 +29,15 @@ from airflow.providers.microsoft.mssql.operators.mssql import MsSqlOperator
 
 DAG_ID = "etl-exercise-sql-dag"
 
+S3_CONN_ID = "workshop_s3"
+SRC_BUCKET_NAME = "workshop-output"
+SRC_FILE = "yourname.parquet"
+
+SQL_CONN_ID = "workshop_mssql"
+
 with DAG(
     DAG_ID,
-    schedule="@daily",
+    schedule_interval=None,
     start_date=datetime(2024, 5, 24),
     tags=["workshop-exercise"],
     catchup=False,
@@ -39,10 +45,9 @@ with DAG(
 
     create_table_mssql_from_external_file = MsSqlOperator(
         task_id="create_account_totals_table",
-        mssql_conn_id="workshop_mssql",
+        mssql_conn_id=SQL_CONN_ID,
         sql=r"""
         CREATE TABLE ACCOUNT_TOTALS (
-            id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
             iban VARCHAR(30),
             amount FLOAT
         );
@@ -52,17 +57,19 @@ with DAG(
 
     get_all_account_totals = MsSqlOperator(
         task_id="get_all_description",
-        mssql_conn_id="workshop_mssql",
+        mssql_conn_id=SQL_CONN_ID,
         sql=r"""SELECT * FROM ACCOUNT_TOTALS;""",
     )
 
     # Write an ETL pipeline that does the following:
-    # 1. Creates a new table `<your name>_ACCOUNT_TOTALS` but using a `create_table.sql` file
-    # 2. Downloads file `input.csv` from `workshop` bucket to local directory
-    # 3. Insert rows from `input.csv` file
-    # 4. Get all data from `<your name>_ACCOUNT_TOTALS` 
+    # 1. Creates a new table `<your name>_ACCOUNT_TOTALS` with iban and amount colums and use a `create_table.sql` file
+    # 2. Downloads file `results/<yourname>.parquet` from `workshop-output` bucket to local directory
+    # 3. Insert rows from parquet file to database table
+    # 4. Select all data from `<your name>_ACCOUNT_TOTALS` table
 
     # Make the create table step rerunnable 
+
+    # Hints: you can use S3ToSqlOperator, and/or some functions in MsSqlHook, S3Hook
 
     (
         create_table_mssql_from_external_file
