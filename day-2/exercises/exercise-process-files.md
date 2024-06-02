@@ -8,4 +8,4 @@ Create an Airflow DAG with the following tasks for processing files in csv_data 
 4. Indicate completion once all Parquet files are present in the destination directory by printing a successful message. 
 
 Optional:
-1. Use ([Jinja templating](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/operators.html#jinja-templating)) to always execute the DAG three days before current day.
+1. Use ([Jinja templating](https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/operators.html#jinja-templating)) to dynamically calculate and display the date three days before the execution date of the current DAG run.
