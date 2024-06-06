@@ -36,6 +36,13 @@ with DAG(
     tags=["workshop"],
     catchup=False,
 ) as dag:
+    
+    drop_table_mssql_task = MsSqlOperator(
+        task_id="drop_account_totals_table",
+        mssql_conn_id="workshop_mssql",
+        sql=r"DROP TABLE IF EXISTS ACCOUNT_TOTALS;",
+        dag=dag,
+    )
 
     create_table_mssql_task = MsSqlOperator(
         task_id="create_account_totals_table",
@@ -53,10 +60,11 @@ with DAG(
     get_all_account_totals = MsSqlOperator(
         task_id="get_all_description",
         mssql_conn_id="workshop_mssql",
-        sql=r"""SELECT * FROM ACCOUNT_TOTALS;""",
+        sql=r"SELECT * FROM ACCOUNT_TOTALS;",
     )
 
     (
-        create_table_mssql_task
+        drop_table_mssql_task
+        >> create_table_mssql_task
         >> get_all_account_totals
     )
